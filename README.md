@@ -18,12 +18,13 @@ You will need access to a Kubernetes cluster running a deployment of the router.
 This repo contains templates that you can use to generate the required YAML. 
 
 1. Install http://hygen.io
-2. Run the following command, where myproject is the namespace where you want to install Prometheus and Grafana:
+2. Run the following command, where `myproject` is the namespace where you want to install Prometheus and Grafana:
 
 ```console
-$ hygen choose-ns new --name myproject
+$ hygen ns choose --name myproject
 ```
-
+You are prompted to overwrite the existing files.
+Choose `Y` to continue.
 
 ## Troubleshooting
 
