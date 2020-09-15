@@ -12,9 +12,24 @@ These instruction will only setup monitoring of the routers in the cluster. It w
 
 You will need access to a Kubernetes cluster running a deployment of the router. See [qdr-operator](https://github.com/interconnectedcloud/qdr-operator) for instructions on how to install the qdr-operator into your cluster.
 
+
+## Deploying Prometheus and Grafana
+
+This repo contains templates that you can use to generate the required YAML. 
+
+1. Install http://hygen.io
+2. Run the following command, where myproject is the namespace where you want to install Prometheus and Grafana:
+
+```console
+$ hygen choose-ns new --name myproject
+```
+
+
+## Troubleshooting
+
 This guide assumes you are using a project named 'myproject'. If not, change all namespace definitions to your current project name.
 
-## Router network
+### Router network
 
 After the qdr-operator is installed, the router network used in this example is deployed using:
 
@@ -28,9 +43,9 @@ Check to ensure the router network is available:
 $ kubectl rollout status deployment/example-interconnect -w -n myproject
 ```
 
-## Deploy prometheus / grafana
+### Deploy prometheus / grafana
 
-### 
+#### 
 All of the commands needed to install prometheus/grafana monitoring are in the deploy-monitoring script: 
 
 ```console
@@ -39,7 +54,7 @@ $ ./deploy-monitoring.sh
 
 If you recieve any errors, you can run the individual command separately:
 
-### Create the prometheus deployment and alertmanager
+#### Create the prometheus deployment and alertmanager
 
 ```console
 $ kubectl apply -f ./monitoring/alerting-interconnect.yaml -n myproject
@@ -47,7 +62,7 @@ $ kubectl apply -f ./monitoring/prometheus.yaml -n myproject
 $ kubectl apply -f ./monitoring/alertmanager.yaml -n myproject
 ```
 
-### Wait for Prometheus server to be ready
+#### Wait for Prometheus server to be ready
 
 ```console
 $ kubectl rollout status deployment/prometheus -w -n myproject
@@ -56,7 +71,7 @@ $ kubectl create -f ./monitoring/route-alertmanager.yaml -n myproject
 $ kubectl create -f ./monitoring/route-prometheus.yaml -n myproject
 ```
 
-### Prepare Grafana datasource and dashboards
+#### Prepare Grafana datasource and dashboards
 
 ```console
 $ kubectl create configmap grafana-config \
@@ -68,13 +83,13 @@ $ kubectl create configmap grafana-config \
 
 ```
 
-### Deploy grafana
+#### Deploy grafana
 
 ```console
 $ kubectl apply -f ./monitoring/grafana.yaml -n myproject
 ```
 
-### Wait for Grafana server to be ready
+#### Wait for Grafana server to be ready
 
 ```console
 $ kubectl rollout status deployment/grafana -w -n myproject
